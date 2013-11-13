@@ -218,6 +218,11 @@ public class SynchronizeAfterMergeDialog extends BaseStepDialog implements StepD
 				setTableFieldCombo();
 			}
 		};
+    SelectionListener lsSimpleSelection = new SelectionAdapter() {
+      public void widgetSelected( SelectionEvent e ) {
+        input.setChanged();
+      }
+    };
 		changed = input.hasChanged();
 
 		FormLayout formLayout = new FormLayout();
@@ -358,6 +363,7 @@ public class SynchronizeAfterMergeDialog extends BaseStepDialog implements StepD
 		wlBatch.setLayoutData(fdlBatch);
 		wBatch=new Button(wGeneralComp, SWT.CHECK);
 		wBatch.setToolTipText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.Batch.Tooltip"));
+    	wBatch.addSelectionListener( lsSimpleSelection );
  		props.setLook(wBatch);
 		fdBatch=new FormData();
 		fdBatch.left  = new FormAttachment(middle, 0);
@@ -740,6 +746,7 @@ public class SynchronizeAfterMergeDialog extends BaseStepDialog implements StepD
 		wlPerformLookup.setLayoutData(fdlPerformLookup);
 		wPerformLookup=new Button(wOperationOrder, SWT.CHECK);
 		wPerformLookup.setToolTipText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.PerformLookup.Tooltip"));
+    	wPerformLookup.addSelectionListener( lsSimpleSelection );
  		props.setLook(wPerformLookup);
 		fdPerformLookup=new FormData();
 		fdPerformLookup.left  = new FormAttachment(middle, 0);
