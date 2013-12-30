@@ -34,6 +34,7 @@ import javax.mail.Message;
 import org.apache.commons.collections.iterators.ArrayIterator;
 import org.apache.commons.lang.StringUtils;
 import org.pentaho.di.core.Const;
+import org.pentaho.di.core.encryption.Encr;
 import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.core.row.RowDataUtil;
 import org.pentaho.di.core.row.RowMeta;
@@ -399,7 +400,7 @@ public class MailInput extends BaseStep implements StepInterface {
       }
 
       String realusername = environmentSubstitute( meta.getUserName() );
-      String realpassword = environmentSubstitute( meta.getPassword() );
+      String realpassword = Encr.decryptPasswordOptionallyEncrypted( environmentSubstitute( meta.getPassword() ) );
       int realport = Const.toInt( environmentSubstitute( meta.getPort() ), -1 );
       String realProxyUsername = environmentSubstitute( meta.getProxyUsername() );
       if ( !meta.isDynamicFolder() ) {

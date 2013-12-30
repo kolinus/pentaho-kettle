@@ -44,6 +44,7 @@ import jxl.write.WritableImage;
 import org.apache.commons.vfs.FileObject;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.ResultFile;
+import org.pentaho.di.core.encryption.Encr;
 import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.core.row.ValueMeta;
 import org.pentaho.di.core.row.ValueMetaInterface;
@@ -554,7 +555,8 @@ public class ExcelOutput extends BaseStep implements StepInterface {
       if ( meta.isSheetProtected() ) {
         // Protect Sheet by setting password
         data.sheet.getSettings().setProtected( true );
-        data.sheet.getSettings().setPassword( environmentSubstitute( meta.getPassword() ) );
+        data.sheet.getSettings().setPassword( Encr.decryptPasswordOptionallyEncrypted(
+            environmentSubstitute( meta.getPassword() ) ) );
       }
 
       // Set the initial position...

@@ -51,6 +51,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.ResultFile;
+import org.pentaho.di.core.encryption.Encr;
 import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.core.row.ValueMeta;
 import org.pentaho.di.core.row.ValueMetaInterface;
@@ -873,7 +874,7 @@ public class ExcelWriterStep extends BaseStep implements StepInterface {
       data.realTemplateSheetName = environmentSubstitute( meta.getTemplateSheetName() );
       data.realTemplateFileName = environmentSubstitute( meta.getTemplateFileName() );
       data.realStartingCell = environmentSubstitute( meta.getStartingCell() );
-      data.realPassword = environmentSubstitute( meta.getPassword() );
+      data.realPassword = Encr.decryptPasswordOptionallyEncrypted( environmentSubstitute( meta.getPassword() ) );
       data.realProtectedBy = environmentSubstitute( meta.getProtectedBy() );
 
       data.shiftExistingCells = ExcelWriterStepMeta.ROW_WRITE_PUSH_DOWN.equals( meta.getRowWritingMethod() );

@@ -715,7 +715,7 @@ public class JobEntryGetPOP extends JobEntryBase implements Cloneable, JobEntryI
   }
 
   public String getRealPassword() {
-    return environmentSubstitute( getPassword() );
+    return Encr.decryptPasswordOptionallyEncrypted( environmentSubstitute( getPassword() ) );
   }
 
   public String getAttachmentFolder() {
