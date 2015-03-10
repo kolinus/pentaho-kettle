@@ -34,9 +34,9 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs2.FileName;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 import org.pentaho.di.base.AbstractMeta;
 import org.pentaho.di.cluster.ClusterSchema;
 import org.pentaho.di.cluster.SlaveServer;
@@ -89,7 +89,7 @@ import org.pentaho.di.core.row.ValueMetaInterface;
 import org.pentaho.di.core.undo.TransAction;
 import org.pentaho.di.core.util.StringUtil;
 import org.pentaho.di.core.variables.VariableSpace;
-import org.pentaho.di.core.vfs.KettleVFS;
+import org.pentaho.di.core.vfs.KettleVFS2;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.pentaho.di.core.xml.XMLInterface;
 import org.pentaho.di.i18n.BaseMessages;
@@ -2662,7 +2662,7 @@ public class TransMeta extends AbstractMeta implements XMLInterface, Comparator<
     // OK, try to load using the VFS stuff...
     Document doc = null;
     try {
-      doc = XMLHandler.loadXMLFile( KettleVFS.getFileObject( fname, parentVariableSpace ) );
+      doc = XMLHandler.loadXMLFile( KettleVFS2.getFileObject( fname, parentVariableSpace ) );
     } catch ( KettleFileException e ) {
       throw new KettleXMLException( BaseMessages.getString(
         PKG, "TransMeta.Exception.ErrorOpeningOrValidatingTheXMLFile", fname ), e );
@@ -5520,7 +5520,7 @@ public class TransMeta extends AbstractMeta implements XMLInterface, Comparator<
     //
     if ( !Const.isEmpty( filename ) ) {
       try {
-        FileObject fileObject = KettleVFS.getFileObject( filename, var );
+        FileObject fileObject = KettleVFS2.getFileObject( filename, var );
         FileName fileName = fileObject.getName();
 
         // The filename of the transformation
@@ -5671,7 +5671,7 @@ public class TransMeta extends AbstractMeta implements XMLInterface, Comparator<
       } else {
         // Assume file
         //
-        FileObject fileObject = KettleVFS.getFileObject( space.environmentSubstitute( getFilename() ), space );
+        FileObject fileObject = KettleVFS2.getFileObject( space.environmentSubstitute( getFilename() ), space );
         originalPath = fileObject.getParent().getURL().toString();
         baseName = fileObject.getName().getBaseName();
         fullname = fileObject.getURL().toString();

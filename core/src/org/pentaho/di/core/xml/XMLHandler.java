@@ -62,6 +62,7 @@ import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.core.exception.KettleXMLException;
 import org.pentaho.di.core.row.ValueMeta;
 import org.pentaho.di.core.vfs.KettleVFS;
+import org.pentaho.di.core.vfs.KettleVFS2;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -521,7 +522,7 @@ public class XMLHandler {
    */
   public static Document loadXMLFile( String filename ) throws KettleXMLException {
     try {
-      return loadXMLFile( KettleVFS.getFileObject( filename ) );
+      return loadXMLFile( KettleVFS2.getFileObject( filename ) );
     } catch ( Exception e ) {
       throw new KettleXMLException( e );
     }
@@ -555,6 +556,39 @@ public class XMLHandler {
     boolean namespaceAware ) throws KettleXMLException {
     try {
       return loadXMLFile( KettleVFS.getInputStream( fileObject ), systemID, ignoreEntities, namespaceAware );
+    } catch ( IOException e ) {
+      throw new KettleXMLException( "Unable to read file [" + fileObject.toString() + "]", e );
+    }
+  }
+
+  /**
+   * Load a file into an XML document
+   *
+   * @param filename
+   *          The filename to load into a document
+   * @return the Document if all went well, null if an error occured!
+   */
+  public static Document loadXMLFile( org.apache.commons.vfs2.FileObject fileObject ) throws KettleXMLException {
+    return loadXMLFile( fileObject, null, false, false );
+  }
+
+  /**
+   * Load a file into an XML document
+   *
+   * @param filename
+   *          The filename to load into a document
+   * @param systemId
+   *          Provide a base for resolving relative URIs.
+   * @param ignoreEntities
+   *          Ignores external entities and returns an empty dummy.
+   * @param namespaceAware
+   *          support XML namespaces.
+   * @return the Document if all went well, null if an error occured!
+   */
+  public static Document loadXMLFile( org.apache.commons.vfs2.FileObject fileObject, String systemID, boolean ignoreEntities,
+    boolean namespaceAware ) throws KettleXMLException {
+    try {
+      return loadXMLFile( KettleVFS2.getInputStream( fileObject ), systemID, ignoreEntities, namespaceAware );
     } catch ( IOException e ) {
       throw new KettleXMLException( "Unable to read file [" + fileObject.toString() + "]", e );
     }

@@ -37,8 +37,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs2.FileName;
+import org.apache.commons.vfs2.FileObject;
 import org.pentaho.di.cluster.SlaveServer;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.ExecutorInterface;
@@ -80,7 +80,7 @@ import org.pentaho.di.core.row.ValueMeta;
 import org.pentaho.di.core.util.EnvUtil;
 import org.pentaho.di.core.variables.VariableSpace;
 import org.pentaho.di.core.variables.Variables;
-import org.pentaho.di.core.vfs.KettleVFS;
+import org.pentaho.di.core.vfs.KettleVFS2;
 import org.pentaho.di.i18n.BaseMessages;
 import org.pentaho.di.job.entries.job.JobEntryJob;
 import org.pentaho.di.job.entries.special.JobEntrySpecial;
@@ -1521,7 +1521,7 @@ public class Job extends Thread implements VariableSpace, NamedParams, HasLogCha
     if ( jobMeta != null && jobMeta.getFilename() != null ) // we have a finename that's defined.
     {
       try {
-        FileObject fileObject = KettleVFS.getFileObject( jobMeta.getFilename(), this );
+        FileObject fileObject = KettleVFS2.getFileObject( jobMeta.getFilename(), this );
         FileName fileName = fileObject.getName();
 
         // The filename of the transformation
@@ -1760,7 +1760,7 @@ public class Job extends Thread implements VariableSpace, NamedParams, HasLogCha
         // First export the job... slaveServer.getVariable("MASTER_HOST")
         //
         FileObject tempFile =
-          KettleVFS.createTempFile( "jobExport", ".zip", System.getProperty( "java.io.tmpdir" ), jobMeta );
+          KettleVFS2.createTempFile( "jobExport", ".zip", System.getProperty( "java.io.tmpdir" ), jobMeta );
 
         TopLevelResource topLevelResource =
           ResourceUtil.serializeResourceExportInterface(
