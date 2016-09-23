@@ -88,7 +88,7 @@ public final class ExpandedContentManager {
    *          The content to open and expand
    */
   public static void createExpandedContent( TransGraph parent, String url ) {
-    if ( parent == null ) {
+    if ( parent == null || url == null ) {
       return;
     }
     Browser browser = getExpandedContentForTransGraph( parent );
