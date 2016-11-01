@@ -5381,11 +5381,13 @@ public class Spoon extends ApplicationWindow implements AddUndoPositionInterface
     refreshTree();
     if ( saved && ( meta instanceof TransMeta || meta instanceof JobMeta ) ) {
       TabMapEntry tabEntry = delegates.tabs.findTabMapEntry( meta );
-      TabItem tabItem = tabEntry.getTabItem();
-      if ( meta.getFileType().equals( LastUsedFile.FILE_TYPE_TRANSFORMATION ) ) {
-        tabItem.setImage( GUIResource.getInstance().getImageTransGraph() );
-      } else if ( meta.getFileType().equals( LastUsedFile.FILE_TYPE_JOB ) ) {
-        tabItem.setImage( GUIResource.getInstance().getImageJobGraph() );
+      if( tabEntry != null ) {
+        TabItem tabItem = tabEntry.getTabItem();
+        if ( meta.getFileType().equals( LastUsedFile.FILE_TYPE_TRANSFORMATION ) ) {
+          tabItem.setImage( GUIResource.getInstance().getImageTransGraph() );
+        } else if ( meta.getFileType().equals( LastUsedFile.FILE_TYPE_JOB ) ) {
+          tabItem.setImage( GUIResource.getInstance().getImageJobGraph() );
+        }
       }
     }
 
